@@ -20,6 +20,12 @@
         public bool Stan { get; set; }
         public string Napomena { get; set; }
         public Status Status { get; set; }
+        // Veza ka radniku koji je napravio porudžbinu
+        public int RadnikId { get; set; }
+        public Radnik Radnik { get; set; } = null!;
+
+        // Veza ka stavkama
+        public List<StavkaPorudzbine> Stavke { get; set; } = new();
 
     }
 }
