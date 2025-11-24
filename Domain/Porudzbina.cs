@@ -1,0 +1,25 @@
+﻿namespace Domain
+{
+    public enum Status
+    {
+        Zakazano,
+        Isporuceno,
+        Odlozeno
+    }
+    public class Porudzbina
+    {
+        public string Id { get; set; }
+        public string BrRacuna { get; set; }
+        public string ImePrezime { get; set; }
+        public string Adresa { get; set; }
+        public string BrojTelefona { get; set; }
+        public DateTime DatumPorudzbine { get; set; }
+        public DateTime DatumIsporuke { get; set; }
+        public bool AparatZaKartice { get; set; }
+        public bool Lift { get; set; }
+        public bool Stan { get; set; }
+        public string Napomena { get; set; }
+        public Status Status { get; set; }
+
+    }
+}
