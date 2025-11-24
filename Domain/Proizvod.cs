@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    internal class Proizvod
+    public class Proizvod
     {
         public int Id { get; set; }
 
         public string Naziv { get; set; } = null!;
         public string Dimenzije { get; set; } = null!;
-        public decimal Cena { get; set; }
+        public double Cena { get; set; }
     }
 }

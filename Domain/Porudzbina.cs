@@ -8,7 +8,7 @@
     }
     public class Porudzbina
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string BrRacuna { get; set; }
         public string ImePrezime { get; set; }
         public string Adresa { get; set; }
