@@ -1,0 +1,6 @@
+@API_Vadras_HostAddress = http://localhost:5121
+
+GET {{API_Vadras_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
