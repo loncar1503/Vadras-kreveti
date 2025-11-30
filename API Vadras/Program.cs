@@ -1,4 +1,5 @@
 using API_Vadras;
+using API_Vadras.Repository.ProizvodRepo;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<VadrasDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("VadrasDb")));
+builder.Services.AddScoped<IProizvod,ProizvodEF>();
 
 var app = builder.Build();
 
