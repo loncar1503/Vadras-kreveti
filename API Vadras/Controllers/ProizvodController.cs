@@ -24,7 +24,7 @@ namespace API_Vadras.Controllers
             { 
             Naziv=x.Naziv,
             Cena=x.Cena,
-            Dimenzije=x.Dimenzije,
+            //Dimenzije=x.Dimenzije,
             }).ToList();
             
             var result = await repo.DodajVise(proizvodi);
@@ -33,7 +33,7 @@ namespace API_Vadras.Controllers
         }
 
         [HttpPut("izmeni-vise")]
-        public async Task<IActionResult> UpdateMany([FromBody] List<IzmeniProizvodDTO> dtos)
+        public async Task<IActionResult> IzmeniVise([FromBody] List<IzmeniProizvodDTO> dtos)
         {
             var result = await repo.IzmeniVise(dtos);
             return Ok(result);

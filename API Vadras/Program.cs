@@ -1,5 +1,7 @@
 using API_Vadras;
+using API_Vadras.Repository.PorudzbinaRepo;
 using API_Vadras.Repository.ProizvodRepo;
+using API_Vadras.Repository.StavkaPorudzbineRepo;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<VadrasDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("VadrasDb")));
 builder.Services.AddScoped<IProizvod,ProizvodEF>();
+builder.Services.AddScoped<IStavkaPorudzbine,StavkaPorudzbineEF>();
+builder.Services.AddScoped<IPorudzbina,PorudzbinaEF>();
 
 var app = builder.Build();
 

@@ -35,7 +35,7 @@ namespace API_Vadras.Repository.ProizvodRepo
                 var proizvod = ucitaniProizvodi.First(p => p.Id == dto.Id);
 
                 proizvod.Naziv = dto.Naziv;
-                proizvod.Dimenzije = dto.Dimenzije;
+                //proizvod.Dimenzije = dto.Dimenzije;
                 proizvod.Cena = dto.Cena;
             }
 
