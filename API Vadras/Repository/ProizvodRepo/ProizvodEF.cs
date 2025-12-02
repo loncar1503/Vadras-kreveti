@@ -43,5 +43,18 @@ namespace API_Vadras.Repository.ProizvodRepo
 
             return ucitaniProizvodi;
         }
+
+        public async Task<List<UcitajSveProizvodeDTO>> UcitajSveProizvode()
+        {
+            return await dbContext.Proizvodi
+               .OrderBy(p => p.Naziv)
+               .Select(p => new UcitajSveProizvodeDTO
+               {
+                   Id = p.Id,
+                   Naziv = p.Naziv,
+                   Cena = p.Cena
+               })
+               .ToListAsync();
+        }
     }
 }

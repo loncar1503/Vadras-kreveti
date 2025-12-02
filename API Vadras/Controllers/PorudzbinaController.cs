@@ -17,7 +17,7 @@ namespace API_Vadras.Controllers
             this.repo = repo;
         }
 
-        [HttpPost]
+        [HttpPost("kreiraj-porudzbinu")]
         public async Task<IActionResult> KreirajPorudzbinu([FromBody] KreirajPorudzbinuDTO dto)
         {
             var id = await repo.KreirajPorudzbinu(dto);
@@ -27,5 +27,13 @@ namespace API_Vadras.Controllers
 
             return Ok(id);
         }
+
+        [HttpGet("ucitaj-porudzbine")]
+        public async Task<IActionResult> GetSvePorudzbine()
+        {
+            var porudzbine = await repo.UcitajSvePorudzbine();
+            return Ok(porudzbine);
+        }
+
     }
 }

@@ -38,5 +38,12 @@ namespace API_Vadras.Controllers
             var result = await repo.IzmeniVise(dtos);
             return Ok(result);
         }
+
+        [HttpGet("ucitaj-proizvode")]
+        public async Task<IActionResult> GetAll()
+        {
+            var proizvodi = await repo.UcitajSveProizvode();
+            return Ok(proizvodi);
+        }
     }
 }

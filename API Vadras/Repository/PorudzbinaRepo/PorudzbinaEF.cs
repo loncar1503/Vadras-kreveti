@@ -1,4 +1,5 @@
 ﻿using API_Vadras.DTO.Porudzbina;
+using API_Vadras.DTO.StavkaPorudzbine;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,53 @@ namespace API_Vadras.Repository.PorudzbinaRepo
         {
             this.dbContext = dbContext;
         }
+
+        public async Task<List<UcitajSvePorudzbineDTO>> UcitajSvePorudzbine()
+        {
+            var porudzbine = await dbContext.Porudzbine
+        .Include(p => p.Radnik)
+        .Include(p => p.Stavke)
+            .ThenInclude(s => s.Proizvod)
+        .OrderByDescending(p => p.Id)
+        .ToListAsync();
+
+            var rezultat = porudzbine.Select(p => new UcitajSvePorudzbineDTO
+            {
+                Id = p.Id,
+                BrRacuna = p.BrRacuna,
+                ImePrezime = p.ImePrezime,
+                Adresa = p.Adresa,
+                BrojTelefona = p.BrojTelefona,
+                DatumPorudzbine = p.DatumPorudzbine,
+                DatumIsporuke = p.DatumIsporuke,
+                AparatZaKartice = p.AparatZaKartice,
+                Lift = p.Lift,
+                Stan = p.Stan,
+                Napomena = p.Napomena,
+                Status = p.Status,
+                RadnikId = p.RadnikId,
+                RadnikImePrezime = p.Radnik.ImePrezime,
+
+                Stavke = p.Stavke
+                    .OrderBy(s => s.Rb)
+                    .Select(s => new UcitajStavkePorudzbineDTO
+                    {
+                        Id = s.Id,
+                        Rb = s.Rb,
+                        Kolicina = s.Kolicina,
+                        Boja = s.Boja,
+                        Dimenzija = s.Dimenzija,      
+                        ProizvodId = s.ProizvodId,
+                        NazivProizvoda = s.Proizvod.Naziv,
+                        Cena = s.Proizvod.Cena
+                    })
+                    .ToList()
+
+            }).ToList();
+
+            return rezultat;
+        }
+
         public async Task<int?> KreirajPorudzbinu(KreirajPorudzbinuDTO dto)
         {
             // jednostavne validacije u repou

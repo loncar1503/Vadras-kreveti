@@ -6,5 +6,7 @@
         public int Rb { get; set; }       
         public int Kolicina { get; set; }
         public string Boja { get; set; } = null!;
+
+        public string Dimenzija { get; set; }
     }
 }
