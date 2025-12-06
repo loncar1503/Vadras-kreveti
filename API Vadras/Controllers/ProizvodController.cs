@@ -18,7 +18,7 @@ namespace API_Vadras.Controllers
         }
 
         [HttpPost("dodaj-vise")]
-        public async Task<IActionResult> DodajVise([FromBody] List<KreirajProizvodDTO> dtos)
+        public async Task<IActionResult> DodajVise([FromBody] List<Proizvod> dtos)
         {
             var proizvodi = dtos.Select(x=> new Proizvod 
             { 
@@ -40,7 +40,7 @@ namespace API_Vadras.Controllers
         }
 
         [HttpGet("ucitaj-proizvode")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> UcitajSve()
         {
             var proizvodi = await repo.UcitajSveProizvode();
             return Ok(proizvodi);

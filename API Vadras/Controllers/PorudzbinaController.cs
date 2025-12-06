@@ -9,7 +9,7 @@ namespace API_Vadras.Controllers
     [ApiController]
     public class PorudzbinaController : ControllerBase
     {
-        private readonly VadrasDbContext dbContext;
+
         private readonly IPorudzbina repo;
 
         public PorudzbinaController(IPorudzbina repo)
