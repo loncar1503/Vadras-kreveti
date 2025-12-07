@@ -35,5 +35,25 @@ namespace API_Vadras.Controllers
             return Ok(porudzbine);
         }
 
+        [HttpDelete("id")]
+        public async Task<IActionResult> ObrisiPorudzbinu(int id)
+        {
+            var uspeh = await repo.ObrisiPorudzbinu(id);
+            return Ok(uspeh);
+        }
+
+        [HttpGet("vrati-porudzbinu")]
+        public async Task<IActionResult> VratiPorudzbinu(int id)
+        {
+            var porudzbina = await repo.VratiPorudzbinu(id);
+            return Ok(porudzbina);
+        }
+
+        [HttpPut("{id}/izmeni-porudzbinu")]
+        public async Task<IActionResult> IzmeniPorudzbinuFull(int id,[FromBody] IzmeniPorudzbinuDTO dto)
+        {
+            var ok = await repo.IzmeniPorudzbinu(id, dto);
+            return Ok(ok); 
+        }
     }
 }

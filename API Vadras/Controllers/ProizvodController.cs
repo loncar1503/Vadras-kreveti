@@ -20,22 +20,22 @@ namespace API_Vadras.Controllers
         [HttpPost("dodaj-vise")]
         public async Task<IActionResult> DodajVise([FromBody] List<Proizvod> dtos)
         {
-            var proizvodi = dtos.Select(x=> new Proizvod 
-            { 
-            Naziv=x.Naziv,
-            Cena=x.Cena,
-            //Dimenzije=x.Dimenzije,
+            var proizvodi = dtos.Select(x => new Proizvod
+            {
+                Naziv = x.Naziv,
+                Cena = x.Cena,
+                //Dimenzije=x.Dimenzije,
             }).ToList();
-            
+
             var result = await repo.DodajVise(proizvodi);
 
             return Ok(result);
         }
 
-        [HttpPut("izmeni-vise")]
-        public async Task<IActionResult> IzmeniVise([FromBody] List<IzmeniProizvodDTO> dtos)
+        [HttpPut("izmeni-proizvod")]
+        public async Task<IActionResult> IzmeniProizvod(int id,[FromBody] KreirajProizvodDTO dto)
         {
-            var result = await repo.IzmeniVise(dtos);
+            var result = await repo.IzmeniProizvod(id,dto);
             return Ok(result);
         }
 
@@ -44,6 +44,22 @@ namespace API_Vadras.Controllers
         {
             var proizvodi = await repo.UcitajSveProizvode();
             return Ok(proizvodi);
+        }
+
+        [HttpPost("dodaj-proizvod")]
+        public async Task<IActionResult> DodajProizvod([FromBody] KreirajProizvodDTO dto)
+        {
+            var result = await repo.DodajProizvod(dto);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("obrisi-proizvod")]
+        public async Task<IActionResult> ObrisiProizvod(int id)
+        {
+            var result = await repo.ObrisiProizvod(id);
+
+            return Ok(result);
         }
     }
 }

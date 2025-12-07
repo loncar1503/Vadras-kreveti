@@ -2,11 +2,12 @@
 {
     public class IzmeniStavkePorudzbineDTO
     {
-        public int Id { get; set; }       
+        public int? Id { get; set; }       
         public int Rb { get; set; }       
         public int Kolicina { get; set; }
         public string Boja { get; set; } = null!;
-
         public string Dimenzija { get; set; }
+        public double FinalnaCena { get; set; }
+        public int ProizvodId { get; set; }
     }
 }

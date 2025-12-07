@@ -13,6 +13,18 @@ namespace API_Vadras.Repository.ProizvodRepo
             this.dbContext = dbContext;
         }
 
+        public async Task<int> DodajProizvod(KreirajProizvodDTO dto)
+        {
+            if(dto == null)
+            {
+                return 0;
+            }
+            var pr= new Proizvod { Cena = dto.Cena, Naziv=dto.Naziv };
+            dbContext.Proizvodi.Add(pr);
+            await dbContext.SaveChangesAsync();
+            return pr.Id;
+        }
+
         public async Task<List<Proizvod>> DodajVise(List<Proizvod> proizvodi)
         {
             dbContext.Proizvodi.AddRange(proizvodi);
@@ -22,26 +34,30 @@ namespace API_Vadras.Repository.ProizvodRepo
             return proizvodi;
         }
 
-        public async Task<List<Proizvod>> IzmeniVise(List<IzmeniProizvodDTO> proizvodi)
+        public async Task<Proizvod> IzmeniProizvod(int id, KreirajProizvodDTO dto)
         {
-            var ids = proizvodi.Select(x => x.Id).ToList();
-
-            var ucitaniProizvodi = await dbContext.Proizvodi
-                                          .Where(p => ids.Contains(p.Id))
-                                          .ToListAsync();
-
-            foreach (var dto in proizvodi)
+            var pr = await  dbContext.Proizvodi.FirstOrDefaultAsync(x => x.Id == id);
+            if(pr== null)
             {
-                var proizvod = ucitaniProizvodi.First(p => p.Id == dto.Id);
-
-                proizvod.Naziv = dto.Naziv;
-                //proizvod.Dimenzije = dto.Dimenzije;
-                proizvod.Cena = dto.Cena;
+                return null;
             }
-
+            pr.Naziv=dto.Naziv;
+            pr.Cena=dto.Cena;
             await dbContext.SaveChangesAsync();
+            return pr;
+        }
 
-            return ucitaniProizvodi;
+        public async Task<bool> ObrisiProizvod(int id)
+        {
+            var proizvod=await dbContext.Proizvodi.FirstOrDefaultAsync(x => x.Id == id);
+            if(proizvod == null)
+            {
+                return false;
+            }
+            dbContext.Proizvodi.Remove(proizvod);
+            await dbContext.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<List<UcitajSveProizvodeDTO>> UcitajSveProizvode()

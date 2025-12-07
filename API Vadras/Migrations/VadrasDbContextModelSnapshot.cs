@@ -79,7 +79,7 @@ namespace API_Vadras.Migrations
 
                     b.HasIndex("RadnikId");
 
-                    b.ToTable("Porudzbine");
+                    b.ToTable("Porudzbine", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Proizvod", b =>
@@ -99,7 +99,7 @@ namespace API_Vadras.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Proizvodi");
+                    b.ToTable("Proizvodi", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Radnik", b =>
@@ -124,7 +124,7 @@ namespace API_Vadras.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Radnici");
+                    b.ToTable("Radnici", (string)null);
                 });
 
             modelBuilder.Entity("Domain.StavkaPorudzbine", b =>
@@ -165,7 +165,7 @@ namespace API_Vadras.Migrations
                     b.HasIndex("PorudzbinaId", "Rb")
                         .IsUnique();
 
-                    b.ToTable("StavkePorudzbine");
+                    b.ToTable("StavkePorudzbine", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Porudzbina", b =>
