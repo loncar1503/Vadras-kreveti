@@ -14,6 +14,7 @@ namespace Domain
         public int Kolicina { get; set; }
         public string Boja { get; set; } = null!;
         public string Dimenzija { get; set; }= null!;
+        public double FinalnaCena { get; set; }
 
         public int PorudzbinaId { get; set; }
         public Porudzbina Porudzbina { get; set; } = null!;
