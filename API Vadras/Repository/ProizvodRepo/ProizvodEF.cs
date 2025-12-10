@@ -13,7 +13,7 @@ namespace API_Vadras.Repository.ProizvodRepo
             this.dbContext = dbContext;
         }
 
-        public async Task<int> DodajProizvod(KreirajProizvodDTO dto)
+        public async Task<int> KreirajProizvod(KreirajProizvodDTO dto)
         {
             if(dto == null)
             {
@@ -60,11 +60,11 @@ namespace API_Vadras.Repository.ProizvodRepo
 
         }
 
-        public async Task<List<UcitajSveProizvodeDTO>> UcitajSveProizvode()
+        public async Task<List<VratiSveProizvodeDTO>> VratiSveProizvode()
         {
             return await dbContext.Proizvodi
                .OrderBy(p => p.Naziv)
-               .Select(p => new UcitajSveProizvodeDTO
+               .Select(p => new VratiSveProizvodeDTO
                {
                    Id = p.Id,
                    Naziv = p.Naziv,

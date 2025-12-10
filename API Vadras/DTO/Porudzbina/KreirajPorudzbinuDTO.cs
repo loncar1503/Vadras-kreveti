@@ -8,6 +8,7 @@ namespace API_Vadras.DTO.Porudzbina
         public string ImePrezime { get; set; } = null!;
         public string Adresa { get; set; } = null!;
         public string BrojTelefona { get; set; } = null!;
+        public DateTime DatumPorudzbine { get; set; }
         public DateTime DatumIsporuke { get; set; }
         public bool AparatZaKartice { get; set; }
         public bool Lift { get; set; }

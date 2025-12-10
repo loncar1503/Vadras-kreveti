@@ -4,10 +4,12 @@ namespace API_Vadras.Repository.PorudzbinaRepo
 {
     public interface IPorudzbina
     {
-        Task<int?> KreirajPorudzbinu(KreirajPorudzbinuDTO dto);
-        Task<List<UcitajSvePorudzbineDTO>> UcitajSvePorudzbine();
+        Task<string> KreirajPorudzbinu(KreirajPorudzbinuDTO dto);
+        Task<List<UcitajSvePorudzbineDTO>> VratiSvePorudzbine();
         Task<VratiPorudzbinuDTO>VratiPorudzbinu(int id);
         Task<bool> ObrisiPorudzbinu(int id);
+
+        Task<string> GenerisiBrojRacuna(string lokal);
 
         Task<bool> IzmeniPorudzbinu(int id, IzmeniPorudzbinuDTO dto);
 

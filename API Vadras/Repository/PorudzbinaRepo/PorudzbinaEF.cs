@@ -15,7 +15,7 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             this.dbContext = dbContext;
         }
 
-        public async Task<List<UcitajSvePorudzbineDTO>> UcitajSvePorudzbine()
+        public async Task<List<UcitajSvePorudzbineDTO>> VratiSvePorudzbine()
         {
             var porudzbine = await dbContext.Porudzbine
         .Include(p => p.Radnik)
@@ -39,7 +39,7 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             return rezultat;
         }
 
-        public async Task<int?> KreirajPorudzbinu(KreirajPorudzbinuDTO dto)
+        public async Task<string> KreirajPorudzbinu(KreirajPorudzbinuDTO dto)
         {
             // 1. osnovne validacije
             if (dto == null || dto.Stavke == null || !dto.Stavke.Any())
@@ -78,7 +78,7 @@ namespace API_Vadras.Repository.PorudzbinaRepo
                 ImePrezime = dto.ImePrezime,
                 Adresa = dto.Adresa,
                 BrojTelefona = dto.BrojTelefona,
-                DatumPorudzbine = DateTime.Now,
+                DatumPorudzbine = dto.DatumPorudzbine,
                 DatumIsporuke = dto.DatumIsporuke,
                 AparatZaKartice = dto.AparatZaKartice,
                 Lift = dto.Lift,
@@ -112,7 +112,7 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             dbContext.Porudzbine.Add(porudzbina);
             await dbContext.SaveChangesAsync();
 
-            return porudzbina.Id;
+            return porudzbina.BrRacuna;
         }
 
         public async Task<bool> ObrisiPorudzbinu(int id)
@@ -164,7 +164,7 @@ namespace API_Vadras.Repository.PorudzbinaRepo
         Boja = s.Boja,
         Dimenzija = s.Dimenzija,
         FinalnaCena = s.FinalnaCena,
-        Proizvod = new UcitajSveProizvodeDTO
+        Proizvod = new VratiSveProizvodeDTO
         {
             Id = s.Proizvod.Id,
             Naziv = s.Proizvod.Naziv,
@@ -252,6 +252,37 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             await dbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<string> GenerisiBrojRacuna(string lokal)
+        {
+            string prefix = lokal == "Piramida" ? "P" : "B";
+
+            int currentYear = DateTime.Now.Year;
+            int shortYear = currentYear % 100;
+
+            // Uzimamo poslednju porudžbinu ISTOG lokala u TEKUĆOJ godini
+            var poslednja = await dbContext.Porudzbine
+                .Where(p => p.BrRacuna.StartsWith(prefix) &&
+                            p.DatumPorudzbine.Year == currentYear)
+                .OrderByDescending(p => p.Id)
+                .FirstOrDefaultAsync();
+
+            int redniBroj = 1;
+
+            if (poslednja != null)
+            {
+                // poslednja.BrojRacuna npr "P32/25"
+                var parts = poslednja.BrRacuna
+                    .Replace(prefix, "")   // "32/25"
+                    .Split('/');
+
+                int poslednji = int.Parse(parts[0]);
+                redniBroj = poslednji + 1;
+            }
+
+            return $"{prefix}{redniBroj}/{shortYear}";
+        }
+
     }
         
     

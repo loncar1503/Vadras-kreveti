@@ -11,6 +11,6 @@ namespace API_Vadras.DTO.StavkaPorudzbine
         public double FinalnaCena { get; set; }
         public string Dimenzija { get; set; } = null!;   // iz stavke
 
-        public UcitajSveProizvodeDTO Proizvod { get; set; }
+        public VratiSveProizvodeDTO Proizvod { get; set; }
     }
 }

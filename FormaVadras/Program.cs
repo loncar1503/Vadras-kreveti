@@ -1,3 +1,5 @@
+using QuestPDF.Infrastructure;
+
 namespace FormaVadras
 {
     internal static class Program
@@ -8,10 +10,31 @@ namespace FormaVadras
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            QuestPDF.Settings.License = LicenseType.Community;
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            string izabraniLokal = null;
+
+            // 1. Prvo otvaramo formu za izbor lokala kao DIJALOG
+            using (var frmIzbor = new FrmLoading())
+            {
+                var result = frmIzbor.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrEmpty(frmIzbor.IzabraniLokal))
+                {
+                    izabraniLokal = frmIzbor.IzabraniLokal;
+                }
+                else
+                {
+                    // korisnik zatvorio ili ništa nije izabrao ? izlaz iz aplikacije
+                    return;
+                }
+            }
+
+            // 2. Tek sada startujemo GLAVNU formu, sa izabranim lokalom
+            Application.Run(new FrmLogin(izabraniLokal));
         }
     }
 }

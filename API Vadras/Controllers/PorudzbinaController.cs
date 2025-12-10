@@ -20,18 +20,18 @@ namespace API_Vadras.Controllers
         [HttpPost("kreiraj-porudzbinu")]
         public async Task<IActionResult> KreirajPorudzbinu([FromBody] KreirajPorudzbinuDTO dto)
         {
-            var id = await repo.KreirajPorudzbinu(dto);
+            var brRacuna = await repo.KreirajPorudzbinu(dto);
 
-            if (id is null)
+            if (brRacuna is null)
                 return BadRequest(false);
 
-            return Ok(id);
+            return Ok(brRacuna);
         }
 
-        [HttpGet("ucitaj-porudzbine")]
+        [HttpGet("vrati-sve-porudzbine")]
         public async Task<IActionResult> GetSvePorudzbine()
         {
-            var porudzbine = await repo.UcitajSvePorudzbine();
+            var porudzbine = await repo.VratiSvePorudzbine();
             return Ok(porudzbine);
         }
 
@@ -49,6 +49,12 @@ namespace API_Vadras.Controllers
             return Ok(porudzbina);
         }
 
+        [HttpGet("generisi-broj")]
+        public async Task<IActionResult> GenerisiBroj([FromQuery] string lokal)
+        {
+            var broj = await repo.GenerisiBrojRacuna(lokal);
+            return Ok(broj);
+        }
         [HttpPut("{id}/izmeni-porudzbinu")]
         public async Task<IActionResult> IzmeniPorudzbinuFull(int id,[FromBody] IzmeniPorudzbinuDTO dto)
         {

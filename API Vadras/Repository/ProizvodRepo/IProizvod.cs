@@ -7,8 +7,8 @@ namespace API_Vadras.Repository.ProizvodRepo
     {
         Task<List<Proizvod>> DodajVise(List<Proizvod> proizvodi);
         Task<Proizvod> IzmeniProizvod(int id,KreirajProizvodDTO dto);
-        Task<List<UcitajSveProizvodeDTO>> UcitajSveProizvode();
+        Task<List<VratiSveProizvodeDTO>> VratiSveProizvode();
         Task<bool> ObrisiProizvod(int id);
-        Task<int> DodajProizvod(KreirajProizvodDTO dto);
+        Task<int> KreirajProizvod(KreirajProizvodDTO dto);
     }
 }

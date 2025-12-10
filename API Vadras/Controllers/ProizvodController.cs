@@ -39,17 +39,17 @@ namespace API_Vadras.Controllers
             return Ok(result);
         }
 
-        [HttpGet("ucitaj-proizvode")]
-        public async Task<IActionResult> UcitajSve()
+        [HttpGet("vrati-sve-proizvode")]
+        public async Task<IActionResult> VratiSveProizvode()
         {
-            var proizvodi = await repo.UcitajSveProizvode();
+            var proizvodi = await repo.VratiSveProizvode();
             return Ok(proizvodi);
         }
 
-        [HttpPost("dodaj-proizvod")]
+        [HttpPost("kreiraj-proizvod")]
         public async Task<IActionResult> DodajProizvod([FromBody] KreirajProizvodDTO dto)
         {
-            var result = await repo.DodajProizvod(dto);
+            var result = await repo.KreirajProizvod(dto);
 
             return Ok(result);
         }

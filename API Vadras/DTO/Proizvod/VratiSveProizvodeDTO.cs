@@ -1,6 +1,6 @@
 ﻿namespace API_Vadras.DTO.Proizvod
 {
-    public class UcitajSveProizvodeDTO
+    public class VratiSveProizvodeDTO
     {
         public int Id { get; set; }
         public string Naziv { get; set; } = null!;
