@@ -179,15 +179,12 @@ namespace API_Vadras.Repository.PorudzbinaRepo
         public async Task<bool> IzmeniPorudzbinu(int id, IzmeniPorudzbinuDTO dto)
         {
             var porudzbina = await dbContext.Porudzbine
-            .Include(p => p.Stavke)
-            .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(p => p.Stavke)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            if (porudzbina == null)
-                return false;
+            if (porudzbina == null) return false;
 
-            // ----------------------------
-            // 1) Izmena osnovnih podataka
-            // ----------------------------
+            // 1) osnovna polja
             porudzbina.BrRacuna = dto.BrRacuna;
             porudzbina.ImePrezime = dto.ImePrezime;
             porudzbina.Adresa = dto.Adresa;
@@ -200,27 +197,22 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             porudzbina.Napomena = dto.Napomena;
             porudzbina.Status = dto.Status;
 
-            // ----------------------------
-            // 2) Odredi koje stavke ostaju, menjaju se, brišu, dodaju
-            // ----------------------------
+            // 2) brisanje (obavezno prvo)
+            var dtoIds = dto.Stavke.Where(s => s.Id.HasValue).Select(s => s.Id!.Value).ToHashSet();
+            var zaBrisanje = porudzbina.Stavke.Where(s => !dtoIds.Contains(s.Id)).ToList();
 
-            var dtoStavkeIds = dto.Stavke.Where(s => s.Id.HasValue).Select(s => s.Id.Value).ToList();
+            dbContext.StavkePorudzbine.RemoveRange(zaBrisanje);
 
-            // STARE STAVKE KOJE TREBA OBRISATI
-            var stavkeZaBrisanje = porudzbina.Stavke
-                .Where(s => !dtoStavkeIds.Contains(s.Id))
-                .ToList();
+            // bitno: izbaci i iz navigacije da ne učestvuju u renumeraciji
+            foreach (var del in zaBrisanje)
+                porudzbina.Stavke.Remove(del);
 
-            dbContext.StavkePorudzbine.RemoveRange(stavkeZaBrisanje);
-
-            // ----------------------------
-            // 3) Obradi postojeće stavke
-            // ----------------------------
+            // 3) update postojećih (ne diraj Rb ovde)
             foreach (var sDto in dto.Stavke.Where(s => s.Id.HasValue))
             {
-                var s = porudzbina.Stavke.FirstOrDefault(x => x.Id == sDto.Id.Value);
+                var s = porudzbina.Stavke.FirstOrDefault(x => x.Id == sDto.Id!.Value);
                 if (s == null) return false;
-                s.Rb = sDto.Rb;
+
                 s.Kolicina = sDto.Kolicina;
                 s.Boja = sDto.Boja;
                 s.Dimenzija = sDto.Dimenzija;
@@ -228,37 +220,56 @@ namespace API_Vadras.Repository.PorudzbinaRepo
                 s.ProizvodId = sDto.ProizvodId;
             }
 
-            // ----------------------------
-            // 4) Dodaj nove stavke
-            // ----------------------------
-            var noveStavke = dto.Stavke
+            // 4) dodaj nove
+            var nove = dto.Stavke
                 .Where(s => !s.Id.HasValue)
                 .Select(s => new StavkaPorudzbine
                 {
-                    Rb = s.Rb,
                     Kolicina = s.Kolicina,
                     Boja = s.Boja,
                     Dimenzija = s.Dimenzija,
+                    FinalnaCena = s.FinalnaCena,
                     ProizvodId = s.ProizvodId,
-                    FinalnaCena=s.FinalnaCena,
-                    PorudzbinaId = porudzbina.Id
+                    PorudzbinaId = porudzbina.Id,
+                    Rb = 0 // dodelićemo posle
                 })
                 .ToList();
+
+            await dbContext.StavkePorudzbine.AddRangeAsync(nove);
+
+            // 5) RENumeracija bez pucanja unique indexa:
+            // prvo svima daj privremene Rb (velike), snimi
+            int tmp = 100000;
+            foreach (var s in porudzbina.Stavke)
+                s.Rb = tmp++;
+            foreach (var s in nove)
+                s.Rb = tmp++;
+
+            await dbContext.SaveChangesAsync();
+
+            // onda finalni Rb 1..N po redosledu iz DTO (Rb koji je došao sa klijenta)
+            var dtoSorted = dto.Stavke.OrderBy(s => s.Rb).ToList();
             int rb = 1;
 
-            foreach (var s in porudzbina.Stavke.OrderBy(x => x.Rb))
+            foreach (var sDto in dtoSorted)
             {
-                s.Rb = rb++;
+                if (sDto.Id.HasValue)
+                {
+                    var ent = porudzbina.Stavke.First(x => x.Id == sDto.Id.Value);
+                    ent.Rb = rb++;
+                }
+                else
+                {
+                    // mapiramo nove redom kako stižu (isti redosled kao u dtoSorted)
+                    var ent = nove.First(n => n.ProizvodId == sDto.ProizvodId
+                                           && n.Boja == sDto.Boja
+                                           && n.Dimenzija == sDto.Dimenzija
+                                           && Math.Abs(n.FinalnaCena - sDto.FinalnaCena) < 0.0001
+                                           && n.Kolicina == sDto.Kolicina);
+                    ent.Rb = rb++;
+                    nove.Remove(ent); // da ne pogodi istu opet
+                }
             }
-            foreach (var s in noveStavke)
-            {
-                s.Rb = rb++;
-            }
-            await dbContext.StavkePorudzbine.AddRangeAsync(noveStavke);
-
-            // ----------------------------
-            // 5) Sačuvaj promene
-            // ----------------------------
 
             await dbContext.SaveChangesAsync();
             return true;

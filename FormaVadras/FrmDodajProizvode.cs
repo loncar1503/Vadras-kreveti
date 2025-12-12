@@ -87,6 +87,7 @@ namespace FormaVadras
             cmbProizvodi.SelectedIndex = -1;
             dgvProizvodi.Refresh();
             dgvProizvodi.Columns["Id"].Visible = false;
+            dgvProizvodi.Columns["ProizvodId"].Visible = false;
 
 
             dgvProizvodi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -144,6 +145,8 @@ namespace FormaVadras
                         Dimenzija = txtDimenzije.Text,
                         FinalnaCena = Int32.Parse(txtCena.Text),
                         ProizvodNaziv = ((Proizvod)cmbProizvodi.SelectedItem).Naziv,
+                        ProizvodId = ((Proizvod)cmbProizvodi.SelectedItem).Id,
+
 
                     };
 

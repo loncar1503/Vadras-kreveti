@@ -101,6 +101,7 @@ namespace FormaVadras
 
             dgvProizvodi.Columns["Rb"].Width = 40;
             dgvProizvodi.Columns["Rb"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvProizvodi.Columns["ProizvodId"].Visible = false;
 
             dgvProizvodi.Columns["Kolicina"].Width = 80;
             dgvProizvodi.Columns["Kolicina"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
