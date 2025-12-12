@@ -1,4 +1,5 @@
 ﻿using API_Vadras.DTO.Porudzbina;
+using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,29 @@ namespace FormaVadras.Controllers
             var porudzbina = await ApiClient.Client
                 .GetFromJsonAsync<VratiPorudzbinuDTO>($"api/Porudzbina/vrati-porudzbinu?id={id}");
             return porudzbina;
+        }
+
+        internal async Task<bool> IzmeniPorudzbinu(object id, IzmeniPorudzbinuDTO dto)
+        {
+            try
+            {
+                var response = await ApiClient.Client.PutAsJsonAsync(
+                    $"api/Porudzbina/{id}/izmeni-porudzbinu",
+                    dto
+                );
+
+                if (!response.IsSuccessStatusCode)
+                    return false;
+
+                // API vraća bool (true / false)
+                var result = await response.Content.ReadFromJsonAsync<bool>();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Greška API-ja: " + ex.Message);
+                return false;
+            }
         }
     }
 }

@@ -37,11 +37,16 @@
             // 
             dgvSvePorudzbine.BackgroundColor = SystemColors.ButtonFace;
             dgvSvePorudzbine.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSvePorudzbine.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgvSvePorudzbine.Location = new Point(60, 89);
+            dgvSvePorudzbine.MultiSelect = false;
             dgvSvePorudzbine.Name = "dgvSvePorudzbine";
+            dgvSvePorudzbine.ReadOnly = true;
             dgvSvePorudzbine.RowHeadersWidth = 51;
+            dgvSvePorudzbine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSvePorudzbine.Size = new Size(833, 405);
             dgvSvePorudzbine.TabIndex = 0;
+            dgvSvePorudzbine.CellDoubleClick += dgvSvePorudzbine_CellDoubleClick_1;
             // 
             // btnRacun
             // 

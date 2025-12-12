@@ -24,16 +24,18 @@ namespace FormaVadras.UserControlls
             InitializeComponent();
             porudzbinaContr = new PorudzbinaContr();
 
-            PopuniPolja();
+            RefreshDgv();
 
         }
 
-        private async void PopuniPolja()
+
+
+        public async void RefreshDgv()
         {
             dgvSvePorudzbine.DataSource = await porudzbinaContr.VratiSvePorudzbine();
             dgvSvePorudzbine.Columns["Id"].Visible = false;
-        }
 
+        }
         private async void btnRacun_Click(object sender, EventArgs e)
         {
             if (dgvSvePorudzbine.SelectedRows.Count == 0)
@@ -44,7 +46,7 @@ namespace FormaVadras.UserControlls
 
             int id = (int)dgvSvePorudzbine.SelectedRows[0].Cells["Id"].Value;
 
-            var porudzbina= await porudzbinaContr.VratiPorudzbinu(id);
+            var porudzbina = await porudzbinaContr.VratiPorudzbinu(id);
 
             var doc = new RacunPorudzbinaDocument(
                 porudzbina,
@@ -52,12 +54,21 @@ namespace FormaVadras.UserControlls
                 footerImagePath: @"Resources/MemorandumFooter.jpg"
             );
 
+            // putanja do Desktop-a
+            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+            // naš folder na desktopu
+            var folder = Path.Combine(desktop, "Vadras_Dokumenti");
+
+            // kreiraj folder ako ne postoji
+            Directory.CreateDirectory(folder);
+
             var safeBrRacuna = porudzbina.BrRacuna
-                 .Replace("/", "-")
-                 .Replace("\\", "-");
+                .Replace("/", "-")
+                .Replace("\\", "-");
 
             string path = Path.Combine(
-                Path.GetTempPath(),
+                folder,
                 $"Racun_{safeBrRacuna}_{DateTime.Now:yyyyMMddHHmmss}.pdf");
 
             doc.GeneratePdf(path);
@@ -66,6 +77,26 @@ namespace FormaVadras.UserControlls
             {
                 UseShellExecute = true
             });
+        }
+
+        private void dgvSvePorudzbine_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+
+        private void dgvSvePorudzbine_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return; // header
+
+            var dto = (UcitajSvePorudzbineDTO)dgvSvePorudzbine.Rows[e.RowIndex].DataBoundItem;
+
+            int id = dto.Id; // ili string brRacuna, šta god imaš
+
+            var frm = new FrmIzmeniPorudzbinu(id);
+            frm.ShowDialog();
+            RefreshDgv();
         }
     }
 }

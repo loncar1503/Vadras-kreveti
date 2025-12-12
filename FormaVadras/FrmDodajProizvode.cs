@@ -21,36 +21,39 @@ namespace FormaVadras
     public partial class FrmDodajProizvode : Form
     {
         UcKreirajPorudzbinu frmKreirajPoruzbinu;
-
+        FrmIzmeniPorudzbinu frmIzmeniPorudzbinu;
         ProizvodContr pcontroller;
-        public FrmDodajProizvode(UcKreirajPorudzbinu frmKreirajPoruzbinu)
+        bool kreiranje;
+        public FrmDodajProizvode(UcKreirajPorudzbinu frmKreirajPoruzbinu, bool kreiranje)
         {
             InitializeComponent();
+            this.kreiranje = kreiranje;
             pcontroller = new ProizvodContr();
-            PopuniPolja();
             this.frmKreirajPoruzbinu = frmKreirajPoruzbinu;
-            AzurirajDgv();
+
+            PopuniPolja();
+        }
+        public FrmDodajProizvode(FrmIzmeniPorudzbinu frmIzmeniPorudzbinu, bool kreiranje)
+        {
+            InitializeComponent();
+            this.kreiranje = kreiranje;
+
+            pcontroller = new ProizvodContr();
+            this.frmIzmeniPorudzbinu = frmIzmeniPorudzbinu;
+
+            PopuniPoljaIzmena();
         }
 
         private async void PopuniPolja()
         {
+            dgvProizvodi.DataSource = frmKreirajPoruzbinu.stavke;
 
             // punimo comboBox
             cmbProizvodi.DataSource = await pcontroller.VratiSveProizvode();
             cmbProizvodi.DisplayMember = "Naziv"; // šta se vidi u listi
             cmbProizvodi.ValueMember = "Id";     // šta se krije iza (ID proizvoda)
             cmbProizvodi.SelectedIndex = -1;
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        public void AzurirajDgv()
-        {
-            dgvProizvodi.DataSource = null;
-            dgvProizvodi.DataSource = frmKreirajPoruzbinu.stavke;
+            dgvProizvodi.Refresh();
             dgvProizvodi.Columns["ProizvodId"].Visible = false;
 
 
@@ -73,12 +76,47 @@ namespace FormaVadras
             dgvProizvodi.Columns["FinalnaCena"].HeaderText = "Cena";
             dgvProizvodi.Columns["Rb"].HeaderText = "";
         }
+        private async void PopuniPoljaIzmena()
+        {
+            dgvProizvodi.DataSource = frmIzmeniPorudzbinu.stavkeEdit;
+
+            // punimo comboBox
+            cmbProizvodi.DataSource = await pcontroller.VratiSveProizvode();
+            cmbProizvodi.DisplayMember = "Naziv"; // šta se vidi u listi
+            cmbProizvodi.ValueMember = "Id";     // šta se krije iza (ID proizvoda)
+            cmbProizvodi.SelectedIndex = -1;
+            dgvProizvodi.Refresh();
+            dgvProizvodi.Columns["Id"].Visible = false;
+
+
+            dgvProizvodi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dgvProizvodi.Columns["Rb"].Width = 40;
+            dgvProizvodi.Columns["Rb"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+            dgvProizvodi.Columns["Kolicina"].Width = 60;
+            dgvProizvodi.Columns["Kolicina"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+            //dgvProizvodi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dgvProizvodi.Columns["Rb"].Width = 40;
+            dgvProizvodi.Columns["Rb"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+            dgvProizvodi.Columns["Kolicina"].Width = 80;
+            dgvProizvodi.Columns["Kolicina"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvProizvodi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProizvodi.Columns["FinalnaCena"].HeaderText = "Cena";
+            dgvProizvodi.Columns["ProizvodNaziv"].HeaderText = "Naziv";
+
+            dgvProizvodi.Columns["Rb"].HeaderText = "";
+        }
+
 
         private void btnDodajProizvod_Click(object sender, EventArgs e)
         {
             try
             {
-                if (cmbProizvodi.SelectedIndex != -1)
+                if (cmbProizvodi.SelectedIndex != -1 && kreiranje)
                 {
                     KreirajStavkePorudzbineDTO stavka = new KreirajStavkePorudzbineDTO()
                     {
@@ -87,11 +125,30 @@ namespace FormaVadras
                         Boja = txtBoja.Text,
                         Dimenzija = txtDimenzije.Text,
                         FinalnaCena = Int32.Parse(txtCena.Text),
-                        ProizvodId = ((Proizvod)cmbProizvodi.SelectedItem).Id
+                        ProizvodId = ((Proizvod)cmbProizvodi.SelectedItem).Id,
+                        ProizvodNaziv= ((Proizvod)cmbProizvodi.SelectedItem).Naziv,
                     };
 
                     frmKreirajPoruzbinu.stavke.Add(stavka);
-                    AzurirajDgv();
+
+                    OcistiPolja();
+                }
+                if (cmbProizvodi.SelectedIndex != -1 && !kreiranje)
+                {
+                    IzmeniStavkePorudzbineDTO stavka = new IzmeniStavkePorudzbineDTO()
+                    {
+                        Id =null,
+                        Rb = frmIzmeniPorudzbinu.stavkeEdit.Count() + 1,
+                        Kolicina = Convert.ToInt32(numKolicina.Value),
+                        Boja = txtBoja.Text,
+                        Dimenzija = txtDimenzije.Text,
+                        FinalnaCena = Int32.Parse(txtCena.Text),
+                        ProizvodNaziv = ((Proizvod)cmbProizvodi.SelectedItem).Naziv,
+
+                    };
+
+                    frmIzmeniPorudzbinu.stavkeEdit.Add(stavka);
+
                     OcistiPolja();
                 }
             }

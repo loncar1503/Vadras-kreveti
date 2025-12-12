@@ -76,6 +76,7 @@ namespace FormaVadras
 
         private void pregledPorudzbinaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _ucSve.RefreshDgv();
             ShowScreen(_ucSve);
 
         }

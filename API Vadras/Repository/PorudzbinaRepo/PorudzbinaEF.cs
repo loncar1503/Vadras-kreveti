@@ -155,22 +155,22 @@ namespace API_Vadras.Repository.PorudzbinaRepo
                 RadnikImePrezime = r.Radnik.ImePrezime,
 
                 Stavke = r.Stavke
-    .OrderBy(s => s.Rb)
-    .Select(s => new UcitajStavkePorudzbineDTO
-    {
-        Id = s.Id,
-        Rb = s.Rb,
-        Kolicina = s.Kolicina,
-        Boja = s.Boja,
-        Dimenzija = s.Dimenzija,
-        FinalnaCena = s.FinalnaCena,
-        Proizvod = new VratiSveProizvodeDTO
-        {
-            Id = s.Proizvod.Id,
-            Naziv = s.Proizvod.Naziv,
-            Cena = s.Proizvod.Cena
-        }
-    }).ToList()
+                .OrderBy(s => s.Rb)
+                .Select(s => new UcitajStavkePorudzbineDTO
+                {
+                    Id = s.Id,
+                    Rb = s.Rb,
+                    Kolicina = s.Kolicina,
+                    Boja = s.Boja,
+                    Dimenzija = s.Dimenzija,
+                    FinalnaCena = s.FinalnaCena,
+                    Proizvod = new VratiSveProizvodeDTO
+                    {
+                        Id = s.Proizvod.Id,
+                        Naziv = s.Proizvod.Naziv,
+                        Cena = s.Proizvod.Cena
+                    }
+                }).ToList()
             };
             return porudzbina;
 
@@ -179,8 +179,8 @@ namespace API_Vadras.Repository.PorudzbinaRepo
         public async Task<bool> IzmeniPorudzbinu(int id, IzmeniPorudzbinuDTO dto)
         {
             var porudzbina = await dbContext.Porudzbine
-        .Include(p => p.Stavke)
-        .FirstOrDefaultAsync(p => p.Id == id);
+            .Include(p => p.Stavke)
+            .FirstOrDefaultAsync(p => p.Id == id);
 
             if (porudzbina == null)
                 return false;
@@ -193,6 +193,7 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             porudzbina.Adresa = dto.Adresa;
             porudzbina.BrojTelefona = dto.BrojTelefona;
             porudzbina.DatumIsporuke = dto.DatumIsporuke;
+            porudzbina.DatumPorudzbine = dto.DatumPorudzbine;
             porudzbina.AparatZaKartice = dto.AparatZaKartice;
             porudzbina.Lift = dto.Lift;
             porudzbina.Stan = dto.Stan;
@@ -217,8 +218,8 @@ namespace API_Vadras.Repository.PorudzbinaRepo
             // ----------------------------
             foreach (var sDto in dto.Stavke.Where(s => s.Id.HasValue))
             {
-                var s = porudzbina.Stavke.First(x => x.Id == sDto.Id.Value);
-
+                var s = porudzbina.Stavke.FirstOrDefault(x => x.Id == sDto.Id.Value);
+                if (s == null) return false;
                 s.Rb = sDto.Rb;
                 s.Kolicina = sDto.Kolicina;
                 s.Boja = sDto.Boja;
@@ -243,12 +244,22 @@ namespace API_Vadras.Repository.PorudzbinaRepo
                     PorudzbinaId = porudzbina.Id
                 })
                 .ToList();
+            int rb = 1;
 
+            foreach (var s in porudzbina.Stavke.OrderBy(x => x.Rb))
+            {
+                s.Rb = rb++;
+            }
+            foreach (var s in noveStavke)
+            {
+                s.Rb = rb++;
+            }
             await dbContext.StavkePorudzbine.AddRangeAsync(noveStavke);
 
             // ----------------------------
             // 5) Sačuvaj promene
             // ----------------------------
+
             await dbContext.SaveChangesAsync();
             return true;
         }
