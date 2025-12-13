@@ -89,9 +89,8 @@ public class RacunPorudzbinaDocument : IDocument
                     if (!string.IsNullOrEmpty(_headerImagePath))
                     {
                         col.Item()
-                           .MaxHeight(100)
                            .Image(_headerImagePath)
-                           .FitWidth();
+                           .FitWidth();   // sada je visina slike ionako mala
                     }
 
                     col.Item().PaddingTop(5).Row(row =>
@@ -309,7 +308,6 @@ public class RacunPorudzbinaDocument : IDocument
                     if (!string.IsNullOrEmpty(_footerImagePath))
                     {
                         c.Item()
-                         .MaxHeight(60)
                          .Image(_footerImagePath)
                          .FitWidth();
                     }

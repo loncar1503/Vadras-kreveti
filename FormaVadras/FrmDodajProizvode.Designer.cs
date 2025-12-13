@@ -70,7 +70,6 @@
             label6.Size = new Size(76, 20);
             label6.TabIndex = 23;
             label6.Text = "Dimenzije";
-            label6.Click += label6_Click;
             // 
             // label5
             // 

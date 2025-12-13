@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();
+            početniEkranToolStripMenuItem = new ToolStripMenuItem();
             porudzbineToolStripMenuItem = new ToolStripMenuItem();
             kreirajPorudzbinuToolStripMenuItem = new ToolStripMenuItem();
             pregledPorudzbinaToolStripMenuItem = new ToolStripMenuItem();
+            izlogujSeToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             panel1 = new Panel();
-            početniEkranToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -43,12 +44,20 @@
             // 
             menuStrip1.BackColor = Color.LightSeaGreen;
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { početniEkranToolStripMenuItem, porudzbineToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { početniEkranToolStripMenuItem, porudzbineToolStripMenuItem, izlogujSeToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1087, 28);
             menuStrip1.TabIndex = 4;
             menuStrip1.Text = "menuStrip1";
+            // 
+            // početniEkranToolStripMenuItem
+            // 
+            početniEkranToolStripMenuItem.BackColor = Color.PowderBlue;
+            početniEkranToolStripMenuItem.Name = "početniEkranToolStripMenuItem";
+            početniEkranToolStripMenuItem.Size = new Size(111, 24);
+            početniEkranToolStripMenuItem.Text = "Početni ekran";
+            početniEkranToolStripMenuItem.Click += početniEkranToolStripMenuItem_Click;
             // 
             // porudzbineToolStripMenuItem
             // 
@@ -61,16 +70,25 @@
             // kreirajPorudzbinuToolStripMenuItem
             // 
             kreirajPorudzbinuToolStripMenuItem.Name = "kreirajPorudzbinuToolStripMenuItem";
-            kreirajPorudzbinuToolStripMenuItem.Size = new Size(224, 26);
+            kreirajPorudzbinuToolStripMenuItem.Size = new Size(223, 26);
             kreirajPorudzbinuToolStripMenuItem.Text = "Kreiraj porudzbinu";
             kreirajPorudzbinuToolStripMenuItem.Click += kreirajPorudzbinuToolStripMenuItem_Click;
             // 
             // pregledPorudzbinaToolStripMenuItem
             // 
             pregledPorudzbinaToolStripMenuItem.Name = "pregledPorudzbinaToolStripMenuItem";
-            pregledPorudzbinaToolStripMenuItem.Size = new Size(224, 26);
+            pregledPorudzbinaToolStripMenuItem.Size = new Size(223, 26);
             pregledPorudzbinaToolStripMenuItem.Text = "Pregled porudzbina";
             pregledPorudzbinaToolStripMenuItem.Click += pregledPorudzbinaToolStripMenuItem_Click;
+            // 
+            // izlogujSeToolStripMenuItem
+            // 
+            izlogujSeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
+            izlogujSeToolStripMenuItem.BackColor = Color.Gold;
+            izlogujSeToolStripMenuItem.Name = "izlogujSeToolStripMenuItem";
+            izlogujSeToolStripMenuItem.Size = new Size(86, 24);
+            izlogujSeToolStripMenuItem.Text = "Izloguj se";
+            izlogujSeToolStripMenuItem.Click += izlogujSeToolStripMenuItem_Click;
             // 
             // pictureBox1
             // 
@@ -88,19 +106,11 @@
             panel1.Size = new Size(1087, 601);
             panel1.TabIndex = 6;
             // 
-            // početniEkranToolStripMenuItem
-            // 
-            početniEkranToolStripMenuItem.BackColor = Color.PowderBlue;
-            početniEkranToolStripMenuItem.Name = "početniEkranToolStripMenuItem";
-            početniEkranToolStripMenuItem.Size = new Size(111, 24);
-            početniEkranToolStripMenuItem.Text = "Početni ekran";
-            početniEkranToolStripMenuItem.Click += početniEkranToolStripMenuItem_Click;
-            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Teal;
+            BackColor = Color.FromArgb(73, 107, 108);
             ClientSize = new Size(1087, 631);
             Controls.Add(panel1);
             Controls.Add(pictureBox1);
@@ -124,5 +134,6 @@
         private PictureBox pictureBox1;
         private Panel panel1;
         private ToolStripMenuItem početniEkranToolStripMenuItem;
+        private ToolStripMenuItem izlogujSeToolStripMenuItem;
     }
 }

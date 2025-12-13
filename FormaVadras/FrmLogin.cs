@@ -64,6 +64,9 @@ namespace FormaVadras
             this.Hide();
             FrmMain frmMain = new FrmMain(lokal,success.Radnik);
             frmMain.ShowDialog();
+            txtPassword.Text = "";
+            txtUsername.Text = "";
+            this.Show(); 
         }
     }
 }

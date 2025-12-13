@@ -16,7 +16,7 @@ namespace FormaVadras.UserControlls
     public partial class UcKreirajPorudzbinu : UserControl
     {
         public FrmDodajProizvode frmDodajProizvode;
-        public List<KreirajStavkePorudzbineDTO> stavke;
+        public BindingList<KreirajStavkePorudzbineDTO> stavke;
         PorudzbinaContr porudzbinaContr;
         string lokal;
         public UcKreirajPorudzbinu(string lokal)
@@ -25,13 +25,15 @@ namespace FormaVadras.UserControlls
             this.DoubleBuffered = true;
             this.lokal = lokal;
             porudzbinaContr = new PorudzbinaContr();
+            stavke = new BindingList<KreirajStavkePorudzbineDTO>();
 
             PopuniPolja();
-            stavke = new List<KreirajStavkePorudzbineDTO>();
         }
 
         private async void PopuniPolja()
         {
+            dgvProizvodi.DataSource = stavke;
+
             txtBrRacuna.Text = await porudzbinaContr.UcitajBrojRacuna(lokal);
             txtBrRacuna.Enabled = false;
             cmbTipObjekta.DataSource = new List<string> { "Stan", "Kuća" };
@@ -41,42 +43,34 @@ namespace FormaVadras.UserControlls
             datumIsporuke.CustomFormat = "dd.MM.yyyy";
             datumPorudzbine.Value = DateTime.Now;
             datumIsporuke.Value = DateTime.Now.AddDays(30);
-
-        }
-
-        private void btnDodajProizvode_Click(object sender, EventArgs e)
-        {
-            frmDodajProizvode = new FrmDodajProizvode(this);
-            frmDodajProizvode.ShowDialog();
-            AzurirajDgv();
-        }
-        public void AzurirajDgv()
-        {
-
-            dgvProizvodi.DataSource = null;
-            dgvProizvodi.DataSource = stavke;
             dgvProizvodi.Columns["ProizvodId"].Visible = false;
-
 
             //dgvProizvodi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
             dgvProizvodi.Columns["Rb"].Width = 40;
             dgvProizvodi.Columns["Rb"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-
             dgvProizvodi.Columns["Kolicina"].Width = 80;
             dgvProizvodi.Columns["Kolicina"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dgvProizvodi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProizvodi.Columns["FinalnaCena"].HeaderText = "Cena";
+            dgvProizvodi.Columns["ProizvodNaziv"].HeaderText = "Naziv";
+
             dgvProizvodi.Columns["Rb"].HeaderText = "";
+        }
+
+        private void btnDodajProizvode_Click(object sender, EventArgs e)
+        {
+            frmDodajProizvode = new FrmDodajProizvode(this,true);
+            frmDodajProizvode.ShowDialog();
 
         }
+
 
         private async void button2_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Da li ste sigurni da zelite da kreirate ovu porudžbinu?", "Potvrda porudžbine", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                dgvProizvodi.DataSource = null;
                 KreirajPorudzbinuDTO porudzbina = new KreirajPorudzbinuDTO()
                 {
                     BrRacuna = txtBrRacuna.Text,
@@ -86,7 +80,7 @@ namespace FormaVadras.UserControlls
                     DatumIsporuke = datumIsporuke.Value,
                     DatumPorudzbine = datumPorudzbine.Value,
                     Napomena = txtNapomena.Text,
-                    Stavke = stavke,
+                    Stavke = stavke.ToList(),
                     RadnikId = 1,
                 };
                 if (chckKartica.Checked)
@@ -114,11 +108,19 @@ namespace FormaVadras.UserControlls
                 }
 
                 MessageBox.Show($"Porudžbina {brRacuna} je uspešno kreirana.");
-
+                OcistiPolja();
+                stavke.Clear();
             }
         }
 
-
+        private async void OcistiPolja()
+        {
+            txtBrRacuna.Text = await porudzbinaContr.UcitajBrojRacuna(lokal);
+            txtAdresa.Text = "";
+            txtBrojTelefona.Text = "";
+            txtImePrezime.Text = "";
+            txtNapomena.Text = "";            
+        }
 
         private void UcKreirajPorudzbinu_Load(object sender, EventArgs e)
         {

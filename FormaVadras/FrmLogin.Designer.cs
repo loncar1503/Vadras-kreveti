@@ -41,20 +41,20 @@
             // txtPassword
             // 
             txtPassword.Location = new Point(286, 240);
-            txtPassword.Name = "txtPassword";
-            txtPassword.PasswordChar = '*';
+            txtPassword.Name = "textBox1";
             txtPassword.Size = new Size(222, 27);
             txtPassword.TabIndex = 0;
             // 
             // txtUsername
             // 
             txtUsername.Location = new Point(286, 173);
-            txtUsername.Name = "txtUsername";
+            txtUsername.Name = "textBox2";
             txtUsername.Size = new Size(222, 27);
             txtUsername.TabIndex = 1;
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.ButtonHighlight;
             label1.Location = new Point(174, 176);
@@ -65,6 +65,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.ButtonHighlight;
             label2.Location = new Point(174, 240);
@@ -75,6 +76,7 @@
             // 
             // btnLogin
             // 
+            btnLogin.Anchor = AnchorStyles.None;
             btnLogin.Location = new Point(330, 316);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(130, 67);
@@ -95,6 +97,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Anchor = AnchorStyles.None;
             pictureBox1.Image = Properties.Resources.vadras21;
             pictureBox1.Location = new Point(286, 61);
             pictureBox1.Name = "pictureBox1";

@@ -4,7 +4,7 @@ namespace API_Vadras.DTO.StavkaPorudzbine
 {
     public class UcitajStavkePorudzbineDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int Rb { get; set; }
         public int Kolicina { get; set; }
         public string Boja { get; set; } = null!;

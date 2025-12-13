@@ -36,5 +36,19 @@ namespace API_Vadras.Controllers
                 Radnik=radnik
             });
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // RadnikId koji je middleware već ubacio
+            if (!HttpContext.Items.TryGetValue("RadnikId", out var radnikIdObj))
+                return Unauthorized();
+
+            int radnikId = (int)radnikIdObj;
+
+            await repoKey.DeleteAllForRadnikAsync(radnikId);
+
+            return Ok("Uspešno ste se izlogovali");
+        }
     }
 }

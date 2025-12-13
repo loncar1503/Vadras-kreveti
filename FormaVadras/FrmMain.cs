@@ -1,18 +1,19 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
+﻿using API_Vadras.DTO.Proizvod;
 using Domain;
-using System.Linq;
-using System.Collections.Generic;
-using API_Vadras.DTO.Proizvod;
-using System.Text.Json;
+using FormaVadras.Controllers;
 using FormaVadras.UserControlls;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace FormaVadras
 {
     public partial class FrmMain : Form
     {
         public string lokal;
-        public string apiKey;   
+        public string apiKey;
         //private static readonly HttpClient client = new HttpClient
         //{
         //    BaseAddress = new Uri("https://localhost:7080/")
@@ -20,13 +21,14 @@ namespace FormaVadras
         private readonly UcKreirajPorudzbinu _ucKreiraj;
         private readonly UCSvePorudzbine _ucSve;
         private readonly UCHome _ucHome;
-        public FrmMain(string lokal,Radnik r)
+        Radnik radnik;
+        public FrmMain(string lokal, Radnik r)
         {
             InitializeComponent();
-            this.FormClosed += FrmMain_FormClosed;
+            //this.FormClosed += FrmMain_FormClosed;
             this.lokal = lokal;
             this.Text = lokal;
-            Radnik radnik = r;
+            radnik = r;
 
             // kreiramo UC samo jednom
             _ucKreiraj = new UcKreirajPorudzbinu(lokal);
@@ -63,7 +65,7 @@ namespace FormaVadras
 
             panel1.ResumeLayout();
         }
-        
+
 
 
         private void kreirajPorudzbinuToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,13 +73,14 @@ namespace FormaVadras
             ShowScreen(_ucKreiraj);
         }
 
-        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
+        //private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        //{
+        //    Application.Exit();
+        //}
 
         private void pregledPorudzbinaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _ucSve.RefreshDgv();
             ShowScreen(_ucSve);
 
         }
@@ -87,5 +90,18 @@ namespace FormaVadras
             ShowScreen(_ucHome);
 
         }
+
+        private async void izlogujSeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           await ApiClient.Client.PostAsync("api/radnici/logout", null);
+            
+           
+           ApiClient.SetApiKey(string.Empty);
+
+          radnik= null;
+
+          this.Close(); // zatvara FrmMain → vraća se na Login
+        }
     }
-}
+    }
+

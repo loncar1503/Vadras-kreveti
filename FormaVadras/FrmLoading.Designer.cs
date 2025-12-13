@@ -37,6 +37,7 @@
             // 
             // btnPiramida
             // 
+            btnPiramida.Anchor = AnchorStyles.None;
             btnPiramida.Location = new Point(107, 204);
             btnPiramida.Name = "btnPiramida";
             btnPiramida.Size = new Size(187, 125);
@@ -47,6 +48,7 @@
             // 
             // brnBrdo
             // 
+            brnBrdo.Anchor = AnchorStyles.None;
             brnBrdo.Location = new Point(462, 204);
             brnBrdo.Name = "brnBrdo";
             brnBrdo.Size = new Size(192, 123);
@@ -57,6 +59,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ButtonHighlight;
@@ -68,6 +71,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Anchor = AnchorStyles.None;
             pictureBox1.Image = Properties.Resources.vadras21;
             pictureBox1.Location = new Point(273, 24);
             pictureBox1.Name = "pictureBox1";
