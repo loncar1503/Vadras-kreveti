@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            txtPassword = new TextBox();
+            txtUsername = new TextBox();
             label1 = new Label();
             label2 = new Label();
             btnLogin = new Button();
@@ -38,19 +38,20 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // txtPassword
             // 
-            textBox1.Location = new Point(286, 240);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(222, 27);
-            textBox1.TabIndex = 0;
+            txtPassword.Location = new Point(286, 240);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(222, 27);
+            txtPassword.TabIndex = 0;
             // 
-            // textBox2
+            // txtUsername
             // 
-            textBox2.Location = new Point(286, 173);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(222, 27);
-            textBox2.TabIndex = 1;
+            txtUsername.Location = new Point(286, 173);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(222, 27);
+            txtUsername.TabIndex = 1;
             // 
             // label1
             // 
@@ -112,8 +113,8 @@
             Controls.Add(btnLogin);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(txtUsername);
+            Controls.Add(txtPassword);
             Name = "FrmLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ulogujte se";
@@ -124,8 +125,8 @@
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox txtPassword;
+        private TextBox txtUsername;
         private Label label1;
         private Label label2;
         private Button btnLogin;

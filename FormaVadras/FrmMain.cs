@@ -12,19 +12,21 @@ namespace FormaVadras
     public partial class FrmMain : Form
     {
         public string lokal;
-        private static readonly HttpClient client = new HttpClient
-        {
-            BaseAddress = new Uri("https://localhost:7080/")
-        };
+        public string apiKey;   
+        //private static readonly HttpClient client = new HttpClient
+        //{
+        //    BaseAddress = new Uri("https://localhost:7080/")
+        //};
         private readonly UcKreirajPorudzbinu _ucKreiraj;
         private readonly UCSvePorudzbine _ucSve;
         private readonly UCHome _ucHome;
-        public FrmMain(string lokal)
+        public FrmMain(string lokal,Radnik r)
         {
             InitializeComponent();
             this.FormClosed += FrmMain_FormClosed;
             this.lokal = lokal;
             this.Text = lokal;
+            Radnik radnik = r;
 
             // kreiramo UC samo jednom
             _ucKreiraj = new UcKreirajPorudzbinu(lokal);

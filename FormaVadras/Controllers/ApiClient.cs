@@ -6,11 +6,25 @@ using System.Threading.Tasks;
 
 namespace FormaVadras.Controllers
 {
-    internal class ApiClient
+    internal static class ApiClient
     {
-        public static readonly HttpClient Client = new HttpClient
+        private static readonly HttpClient _client = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:7080/")
         };
+
+        public static HttpClient Client => _client;
+
+        public static void SetApiKey(string apiKey)
+        {
+            // ukloni stari ključ
+            _client.DefaultRequestHeaders.Remove("X-API-KEY");
+
+            // dodaj novi ako postoji
+            if (!string.IsNullOrWhiteSpace(apiKey))
+            {
+                _client.DefaultRequestHeaders.Add("X-API-KEY", apiKey);
+            }
+        }
     }
 }

@@ -1,6 +1,9 @@
 using API_Vadras;
+using API_Vadras.Middleware;
+using API_Vadras.Repository.ApiKeyRepo;
 using API_Vadras.Repository.PorudzbinaRepo;
 using API_Vadras.Repository.ProizvodRepo;
+using API_Vadras.Repository.RadniciRepo;
 using API_Vadras.Repository.StavkaPorudzbineRepo;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +20,8 @@ builder.Services.AddDbContext<VadrasDbContext>(options =>
 builder.Services.AddScoped<IProizvod,ProizvodEF>();
 builder.Services.AddScoped<IStavkaPorudzbine,StavkaPorudzbineEF>();
 builder.Services.AddScoped<IPorudzbina,PorudzbinaEF>();
+builder.Services.AddScoped<IApiKey, ApiKeyEF>();
+builder.Services.AddScoped<IRadnici,RadniciEF>();
 
 var app = builder.Build();
 
@@ -30,7 +35,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+//app.UseMiddleware<ApiKeyMiddleware>();
 app.MapControllers();
 
 app.Run();

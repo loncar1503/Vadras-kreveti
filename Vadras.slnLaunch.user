@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "API Vadras\\API Vadras.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "FormaVadras\\FormaVadras.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

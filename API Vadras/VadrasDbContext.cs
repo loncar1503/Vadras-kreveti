@@ -14,6 +14,8 @@ namespace API_Vadras
         public DbSet<Proizvod> Proizvodi { get; set; }
         public DbSet<StavkaPorudzbine> StavkePorudzbine { get; set; }
 
+        public DbSet<ApiKey> ApiKeys { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -36,6 +38,16 @@ namespace API_Vadras
                 .WithMany() // ako proizvod nema listu stavki
                 .HasForeignKey(s => s.ProizvodId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ApiKey>()
+    .HasIndex(x => x.Key)
+    .IsUnique();
+            modelBuilder.Entity<ApiKey>()
+                .HasOne(x => x.Radnik)
+                .WithMany() // ili .WithMany(r => r.ApiKeys) ako dodaš kolekciju
+                .HasForeignKey(x => x.RadnikId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

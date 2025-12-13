@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormaVadras.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,10 +38,31 @@ namespace FormaVadras
             }
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
+            
+            var username = txtUsername.Text;
+            var password = txtPassword.Text;
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Unesite username i password");
+                return;
+            }
+
+            var success = await AuthContr.LoginAsync(username, password);
+
+            if (!success.IsSuccess)
+            {
+                MessageBox.Show("Pogrešan username ili lozinka");
+                txtPassword.Text = "";
+                txtUsername.Text = "";
+                return;
+            }
+
+            MessageBox.Show("Dobrodosao, "+ success.Radnik.ImePrezime);
             this.Hide();
-            FrmMain frmMain = new FrmMain(lokal);
+            FrmMain frmMain = new FrmMain(lokal,success.Radnik);
             frmMain.ShowDialog();
         }
     }
