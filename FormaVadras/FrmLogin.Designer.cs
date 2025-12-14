@@ -41,16 +41,17 @@
             // txtPassword
             // 
             txtPassword.Location = new Point(286, 240);
-            txtPassword.Name = "textBox1";
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(222, 27);
-            txtPassword.TabIndex = 0;
+            txtPassword.TabIndex = 1;
             // 
             // txtUsername
             // 
             txtUsername.Location = new Point(286, 173);
-            txtUsername.Name = "textBox2";
+            txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(222, 27);
-            txtUsername.TabIndex = 1;
+            txtUsername.TabIndex = 0;
             // 
             // label1
             // 

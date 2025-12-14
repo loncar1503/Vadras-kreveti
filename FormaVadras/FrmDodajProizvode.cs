@@ -184,8 +184,75 @@ namespace FormaVadras
 
         private void btnObrisiProizvod_Click(object sender, EventArgs e)
         {
-            if (kre)
-            dgvProizvodi.SelectedRows
+            if (kreiranje)
+            {
+                if (dgvProizvodi.CurrentRow == null)
+                {
+                    MessageBox.Show("Izaberite proizvod koji želite da obrišete.");
+                    return;
+                }
+
+                // 2. Potvrda
+                var confirm = MessageBox.Show(
+                    "Da li ste sigurni da želite da obrišete izabrani proizvod?",
+                    "Potvrda brisanja",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                // 3. Uzmi objekat iz selektovanog reda
+                var stavka = dgvProizvodi.CurrentRow.DataBoundItem
+                             as KreirajStavkePorudzbineDTO;
+
+                if (stavka == null)
+                    return;
+
+                // 4. Obrisi iz liste
+                frmKreirajPoruzbinu.stavke.Remove(stavka);
+
+
+                // (opciono) ponovo numerisi Rb
+                for (int i = 0; i < frmKreirajPoruzbinu.stavke.Count; i++)
+                    frmKreirajPoruzbinu.stavke[i].Rb = i + 1;
+            }
+            else
+            {
+                if (dgvProizvodi.CurrentRow == null)
+                {
+                    MessageBox.Show("Izaberite proizvod koji želite da obrišete.");
+                    return;
+                }
+
+                // 2. Potvrda
+                var confirm = MessageBox.Show(
+                    "Da li ste sigurni da želite da obrišete izabrani proizvod?",
+                    "Potvrda brisanja",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                // 3. Uzmi objekat iz selektovanog reda
+                var stavka = dgvProizvodi.CurrentRow.DataBoundItem
+                             as IzmeniStavkePorudzbineDTO;
+
+                if (stavka == null)
+                    return;
+
+                // 4. Obrisi iz liste
+                frmIzmeniPorudzbinu.stavkeEdit.Remove(stavka);
+
+
+                // (opciono) ponovo numerisi Rb
+                for (int i = 0; i < frmIzmeniPorudzbinu.stavkeEdit.Count; i++)
+                    frmIzmeniPorudzbinu.stavkeEdit[i].Rb = i + 1;
+            }
+
         }
     }
 }

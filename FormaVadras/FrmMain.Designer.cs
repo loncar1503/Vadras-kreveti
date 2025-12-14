@@ -70,21 +70,21 @@
             // kreirajPorudzbinuToolStripMenuItem
             // 
             kreirajPorudzbinuToolStripMenuItem.Name = "kreirajPorudzbinuToolStripMenuItem";
-            kreirajPorudzbinuToolStripMenuItem.Size = new Size(223, 26);
+            kreirajPorudzbinuToolStripMenuItem.Size = new Size(224, 26);
             kreirajPorudzbinuToolStripMenuItem.Text = "Kreiraj porudzbinu";
             kreirajPorudzbinuToolStripMenuItem.Click += kreirajPorudzbinuToolStripMenuItem_Click;
             // 
             // pregledPorudzbinaToolStripMenuItem
             // 
             pregledPorudzbinaToolStripMenuItem.Name = "pregledPorudzbinaToolStripMenuItem";
-            pregledPorudzbinaToolStripMenuItem.Size = new Size(223, 26);
+            pregledPorudzbinaToolStripMenuItem.Size = new Size(224, 26);
             pregledPorudzbinaToolStripMenuItem.Text = "Pregled porudzbina";
             pregledPorudzbinaToolStripMenuItem.Click += pregledPorudzbinaToolStripMenuItem_Click;
             // 
             // izlogujSeToolStripMenuItem
             // 
             izlogujSeToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
-            izlogujSeToolStripMenuItem.BackColor = Color.Gold;
+            izlogujSeToolStripMenuItem.BackColor = Color.PowderBlue;
             izlogujSeToolStripMenuItem.Name = "izlogujSeToolStripMenuItem";
             izlogujSeToolStripMenuItem.Size = new Size(86, 24);
             izlogujSeToolStripMenuItem.Text = "Izloguj se";
