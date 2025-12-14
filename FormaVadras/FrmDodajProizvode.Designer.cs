@@ -173,13 +173,14 @@
             btnObrisiProizvod.FlatAppearance.BorderSize = 0;
             btnObrisiProizvod.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnObrisiProizvod.ForeColor = SystemColors.ActiveCaptionText;
-            btnObrisiProizvod.Location = new Point(869, 164);
+            btnObrisiProizvod.Location = new Point(883, 163);
             btnObrisiProizvod.Margin = new Padding(0);
             btnObrisiProizvod.Name = "btnObrisiProizvod";
             btnObrisiProizvod.Size = new Size(139, 39);
             btnObrisiProizvod.TabIndex = 33;
             btnObrisiProizvod.Text = "Obriši proizvod";
             btnObrisiProizvod.UseVisualStyleBackColor = false;
+            btnObrisiProizvod.Click += btnObrisiProizvod_Click;
             // 
             // button1
             // 

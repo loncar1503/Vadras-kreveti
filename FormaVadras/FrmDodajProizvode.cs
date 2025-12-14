@@ -127,7 +127,7 @@ namespace FormaVadras
                         Dimenzija = txtDimenzije.Text,
                         FinalnaCena = Int32.Parse(txtCena.Text),
                         ProizvodId = ((Proizvod)cmbProizvodi.SelectedItem).Id,
-                        ProizvodNaziv= ((Proizvod)cmbProizvodi.SelectedItem).Naziv,
+                        ProizvodNaziv = ((Proizvod)cmbProizvodi.SelectedItem).Naziv,
                     };
 
                     frmKreirajPoruzbinu.stavke.Add(stavka);
@@ -138,7 +138,7 @@ namespace FormaVadras
                 {
                     IzmeniStavkePorudzbineDTO stavka = new IzmeniStavkePorudzbineDTO()
                     {
-                        Id =null,
+                        Id = null,
                         Rb = frmIzmeniPorudzbinu.stavkeEdit.Count() + 1,
                         Kolicina = Convert.ToInt32(numKolicina.Value),
                         Boja = txtBoja.Text,
@@ -180,6 +180,12 @@ namespace FormaVadras
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnObrisiProizvod_Click(object sender, EventArgs e)
+        {
+            if (kre)
+            dgvProizvodi.SelectedRows
         }
     }
 }

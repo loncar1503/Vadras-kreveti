@@ -42,7 +42,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = Color.LightSeaGreen;
+            menuStrip1.BackColor = Color.CadetBlue;
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { početniEkranToolStripMenuItem, porudzbineToolStripMenuItem, izlogujSeToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -101,6 +101,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.FromArgb(73, 107, 108);
             panel1.Location = new Point(0, 31);
             panel1.Name = "panel1";
             panel1.Size = new Size(1087, 601);

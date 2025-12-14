@@ -34,6 +34,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Anchor = AnchorStyles.None;
             pictureBox1.Image = Properties.Resources.vadras;
             pictureBox1.Location = new Point(319, 34);
             pictureBox1.Name = "pictureBox1";

@@ -62,7 +62,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = Color.LightSeaGreen;
+            menuStrip1.BackColor = Color.CadetBlue;
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { porudzbineToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -313,7 +313,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Teal;
+            BackColor = Color.FromArgb(73, 107, 108);
             ClientSize = new Size(1087, 631);
             Controls.Add(btnSacuvajPorudzbinu);
             Controls.Add(txtNapomena);

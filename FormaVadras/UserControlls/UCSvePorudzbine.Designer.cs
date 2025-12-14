@@ -62,7 +62,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Teal;
+            BackColor = Color.FromArgb(73, 107, 108);
             Controls.Add(btnRacun);
             Controls.Add(dgvSvePorudzbine);
             Name = "UCSvePorudzbine";
